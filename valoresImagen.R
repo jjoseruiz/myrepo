@@ -1,7 +1,7 @@
 valoresImagen<-function(IMAGEN,COORDENADAS){
-  indices = c()
+  valores = c()
   for(i in 1:nrow(COORDENADAS)){
-    indices = c(indices,IMAGEN[COORDENADAS[i,1],COORDENADAS[i,2],COORDENADAS[i,3]])
+    valores = c(valores,IMAGEN[COORDENADAS[i,1],COORDENADAS[i,2],COORDENADAS[i,3]])
   }
-  return(indices)
+  return(valores)
 }
