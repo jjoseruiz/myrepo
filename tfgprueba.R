@@ -15,7 +15,7 @@ lB_FLAIR<-c()
 lB_T1<-c()
 
 #PARA MI DATASET DE MRI APLICAREMOS LA SIGUIENTE SECUENCIA DE PASOS
-for (i in 1:2){
+for (i in 1:30){
   ###LECTURA
   print(paste0("Leyendo Imagen T1 del sujeto ",i))
   IMG_T1 = leeImagen(ROOT = "/Users/juanjoseruizpenela/Documents/IMG1/raw_images/","T1",i)
