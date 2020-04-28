@@ -37,10 +37,13 @@ elegirVoxeles<-function(num_voxel,mascara_gt)
       vecinosSan = getNeighborhoodAtVoxel(ants_mascara,coordSan,c(1,1,1))
       values_San = vecinosSan$values<1
       l=0
-      while(l<length(vecinosSan$values))
+      while(l<length(vecinosSan$values) & j<num_voxel/2)
       {
         l = l+1
-        if(values_San[l] & j<num_voxel/2 & !estaEnLista(indices,vecinosSan$indices[l,1:ncol(indices)]))
+        condSano = values_San[l]
+        if(is.na(condSano))
+          condSano = FALSE
+        if(condSano & j<num_voxel/2 & !estaEnLista(indices,vecinosSan$indices[l,1:ncol(indices)]))
         {
           j = j + 1
           print(paste0("voxel SANO Nº-->",j))
