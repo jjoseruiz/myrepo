@@ -1,6 +1,5 @@
 obtenCoord<-function(num,Imagen)
 {
-  num = 10778777
   fila = num%%nrow(Imagen)
   if (fila==0){
     fila = nrow(Imagen)
