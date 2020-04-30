@@ -6,7 +6,6 @@ source("registroMascara.R")
 library(neurobase)
 library(ANTsR)
 library(extrantsr)
-library(WhiteStripe)
 #Configuración del registro
 s1_FLAIR_CORRECTED=correccion(readnii("/Users/juanjoseruizpenela/Documents/IMG1/raw_images/patient1_FLAIR.nii.gz"))
 S1_MASK = readnii("/Users/juanjoseruizpenela/Documents/IMG1/raw_images/patient1_brainmask.nii.gz")
@@ -16,7 +15,7 @@ lBMASK<-c()
 lB_FLAIR<-c()
 lB_T1<-c()
 #PARA MI DATASET DE MRI APLICAREMOS LA SIGUIENTE SECUENCIA DE PASOS
-for (i in 2:30){
+for (i in 1:30){
   ###LECTURA
   print(paste0("Leyendo Imagen T1 del sujeto ",i))
   IMG_T1 = leeImagen(ROOT = "/Users/juanjoseruizpenela/Documents/IMG1/raw_images/","T1",i)
@@ -57,7 +56,6 @@ for (i in 2:30){
   }else{
     NEW_MASK = registroMascara(IMG_MASK)$outfile
     mascara  = array(as.integer(c(NEW_MASK)),dim = dim(NEW_MASK))
-    
   }
   ##Extracción
   print("Extrayendo Cerebro de FLAIR")
@@ -67,11 +65,10 @@ for (i in 2:30){
   
   ##NORMALIZACIÓN
   ##
-  ind_f=whitestripe(img = Si_FLAIR_BRAIN_REGISTERED,type = "FA",stripped = TRUE)$whitestripe.ind
-  ws_flair = whitestripe_norm(Si_FLAIR_BRAIN_REGISTERED,indices = ind_f)
+  ws_flair =zscore_img(Si_FLAIR_BRAIN_REGISTERED)
   ##
-  ind = whitestripe(img = Si_T1_BRAIN_REGISTERED,type = "T1",stripped = TRUE)$whitestripe.ind
-  ws_t1 = whitestripe_norm(Si_T1_BRAIN_REGISTERED,indices = ind)
+  ws_t1 = zscore(Si_T1_BRAIN_REGISTERED)
+  
   
   ###ESCRITURA
   setwd("/Users/juanjoseruizpenela/Documents/IMG1/BRAIN_IMAGES")
