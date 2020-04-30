@@ -2,20 +2,21 @@ setwd("/Users/juanjoseruizpenela/Documents/WORKSPACE/TFG")
 source("correccion.R")
 source("leeImagen.R")
 source("registro.R")
+source("registroMascara.R")
 library(neurobase)
 library(ANTsR)
 library(extrantsr)
 library(WhiteStripe)
 #Configuración del registro
 s1_FLAIR_CORRECTED=correccion(readnii("/Users/juanjoseruizpenela/Documents/IMG1/raw_images/patient1_FLAIR.nii.gz"))
+S1_MASK = readnii("/Users/juanjoseruizpenela/Documents/IMG1/raw_images/patient1_brainmask.nii.gz")
 lT1<-c()
 lFLAIR<-c()
 lBMASK<-c()
 lB_FLAIR<-c()
 lB_T1<-c()
-
 #PARA MI DATASET DE MRI APLICAREMOS LA SIGUIENTE SECUENCIA DE PASOS
-for (i in 1:30){
+for (i in 2:30){
   ###LECTURA
   print(paste0("Leyendo Imagen T1 del sujeto ",i))
   IMG_T1 = leeImagen(ROOT = "/Users/juanjoseruizpenela/Documents/IMG1/raw_images/","T1",i)
@@ -23,7 +24,6 @@ for (i in 1:30){
   IMG_FLAIR = leeImagen(ROOT = "/Users/juanjoseruizpenela/Documents/IMG1/raw_images/","FLAIR",i)
   print(paste0("Leyendo Máscara del sujeto ",i))
   IMG_MASK = leeImagen(ROOT = "/Users/juanjoseruizpenela/Documents/IMG1/raw_images/","brainmask",i)
-  
   
   
   ###CORRECCIÓN
@@ -37,6 +37,7 @@ for (i in 1:30){
   }else{
     FLAIR_CORRECT = correccion(IMG_FLAIR)
   }
+
   
   ###REGISTRO+EXTRACCIÓN
   #Registramos la FLAIR
@@ -44,27 +45,33 @@ for (i in 1:30){
   if(i==1){
     FLAIR_CORRECT_REGISTERED = FLAIR_CORRECT
   }else{
-    FLAIR_CORRECT_REGISTERED = registro(FLAIR_CORRECT)
+    FLAIR_CORRECT_REGISTERED = registro(FLAIR_CORRECT)$outfile
   }
  
-  
   #Registramos la T1
   print("Registrando T1 al espacio de la FLAIR del paciente 1")
-  T1_CORRECT_REGISTERED = registro(T1_CORRECT)
-  
+  T1_CORRECT_REGISTERED = registro(T1_CORRECT)$outfile
+  #registramos la máscara
+  if(i==1){
+    mascara = IMG_MASK
+  }else{
+    NEW_MASK = registroMascara(IMG_MASK)$outfile
+    mascara  = array(as.integer(c(NEW_MASK)),dim = dim(NEW_MASK))
+    
+  }
   ##Extracción
   print("Extrayendo Cerebro de FLAIR")
-  Si_FLAIR_BRAIN_REGISTERED=mask_img(FLAIR_CORRECT_REGISTERED$outfile,IMG_MASK)
+  Si_FLAIR_BRAIN_REGISTERED=mask_img(FLAIR_CORRECT_REGISTERED,mascara)
   print("Extrayendo cerebro de la T1")
-  Si_T1_BRAIN_REGISTERED = mask_img(T1_CORRECT_REGISTERED$outfile,IMG_MASK)
+  Si_T1_BRAIN_REGISTERED = mask_img(T1_CORRECT_REGISTERED,mascara)
   
   ##NORMALIZACIÓN
   ##
-  ind_f=whitestripe(img = Si_FLAIR_BRAIN,type = "FA",stripped = TRUE)$whitestripe.ind
-  ws_flair = whitestripe_norm(Si_FLAIR_BRAIN,indices = ind_f)
+  ind_f=whitestripe(img = Si_FLAIR_BRAIN_REGISTERED,type = "FA",stripped = TRUE)$whitestripe.ind
+  ws_flair = whitestripe_norm(Si_FLAIR_BRAIN_REGISTERED,indices = ind_f)
   ##
-  ind = whitestripe(img = Si_T1_BRAIN,type = "T1",stripped = TRUE)$whitestripe.ind
-  ws_t1 = whitestripe_norm(Si_T1_BRAIN,indices = ind)
+  ind = whitestripe(img = Si_T1_BRAIN_REGISTERED,type = "T1",stripped = TRUE)$whitestripe.ind
+  ws_t1 = whitestripe_norm(Si_T1_BRAIN_REGISTERED,indices = ind)
   
   ###ESCRITURA
   setwd("/Users/juanjoseruizpenela/Documents/IMG1/BRAIN_IMAGES")
