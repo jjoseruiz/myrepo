@@ -10,5 +10,7 @@ valoresImagen<-function(IMAGEN,COORDENADAS){
     valores = c(list(ventana$values),coord)
     coord = valores
   }
+  #hay que tener cuidado porque las ventanas se guardan como una pila
+  #la primera que se metió es la que está en el fondo
   return(valores)
 }
