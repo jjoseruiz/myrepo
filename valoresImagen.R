@@ -7,10 +7,10 @@ valoresImagen<-function(IMAGEN,COORDENADAS){
   }
   for(i in 1:nrow(COORDENADAS)){
     ventana = getNeighborhoodAtVoxel(imagenants,center = c(COORDENADAS[i,1],COORDENADAS[i,2],COORDENADAS[i,3]),c(1,1,1))
-    valores = c(list(ventana$values),coord)
+    valores = c(coord,list(ventana$values))
     coord = valores
   }
-  #hay que tener cuidado porque las ventanas se guardan como una pila
-  #la primera que se metió es la que está en el fondo
+  #hay que tener en cuenta que los primeros numvoxel/2 son LESION
+  #Los numVoxel/2 siguientes son SANOS
   return(valores)
 }
