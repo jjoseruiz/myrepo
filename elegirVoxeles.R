@@ -18,8 +18,8 @@ elegirVoxeles<-function(num_voxel,mascara_gt)
     indices = matrix(nrow = num_voxel,ncol = 3) 
     while(i<num_voxel/2){
       coordLes = obtenCoord(sample(lesion,1),mascara_gt)
-      condExtremo1=!coordLes[1]==192&!coordLes[2]==512&!coordLes[3]==512
-      condExtremo2=!coordLes[1]==1&!coordLes[2]==1&!coordLes[3]==1
+      condExtremo1=(coordLes[1]!=192&coordLes[2]!=512&coordLes[3]!=512)
+      condExtremo2=(coordLes[1]!=1&coordLes[2]!=1&coordLes[3]!=1)
       if(condExtremo1 & condExtremo2){
         if(!estaEnLista(indices,coordLes) & i<num_voxel/2){
           vecinosLes = getNeighborhoodAtVoxel(ants_mascara,coordLes,c(1,1,1))
@@ -39,8 +39,8 @@ elegirVoxeles<-function(num_voxel,mascara_gt)
 
     while(j<num_voxel/2){
       coordSan = obtenCoord(sample(sano,1),mascara_gt)
-      condExtremo1=!coordSan[1]==192&!coordSan[2]==512&!coordSan[3]==512
-      condExtremo2=(!coordSan[1]==1&!coordSan[2]==1&!coordSan[3]==1)
+      condExtremo1=(coordLes[1]!=192&coordLes[2]!=512&coordLes[3]!=512)
+      condExtremo2=(coordLes[1]!=1&coordLes[2]!=1&coordLes[3]!=1)
       if(condExtremo1&condExtremo2){
         vecinosSan = getNeighborhoodAtVoxel(ants_mascara,coordSan,c(1,1,1))
         values_San = vecinosSan$values<1
