@@ -73,5 +73,15 @@ for (i in 2:30){
   write_nifti(ws_flair,paste0("/Users/juanjoseruizpenela/Documents/IMG1/BRAIN_IMAGES/","S",i,"_FLAIR_BRAIN"))
   write_nifti(ws_t1,paste0("/Users/juanjoseruizpenela/Documents/IMG1/BRAIN_IMAGES/","S",i,"_T1_BRAIN"))
 }
+for(j in 1:30){
+  consensoj = leeImagen(ROOT = "/Users/juanjoseruizpenela/Documents/IMG1/raw_images/","consensus",j)
+  if(j==1){
+    consenso_regist = consensoj
+  }else{
+    consenso_regist = registro(consensoj)$outfile
+  }
+  print("escribiendo")
+  writenii(consenso_regist,paste0("/Users/juanjoseruizpenela/Documents/GIT REPOSITORY/myrepo/BRAIN_IMAGES/CONSENSO/","S",j,"_CONSENSO"))
+}
 
 
