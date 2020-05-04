@@ -11,6 +11,5 @@ recorreImagenes<-function(IMAGENES,COORDENADAS)
     mat[1:nrow(valores),(1+l):(l+ncol(valores))]=valores
     l=l+ncol(valores)
   }
-  #listaValores = lapply(IMAGENES,valoresImagen,COORDENADAS = COORDENADAS)
   return(mat)
 }
