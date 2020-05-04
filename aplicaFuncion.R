@@ -1,5 +1,6 @@
 aplicaFuncion<-function(vecinos,listaFunciones)
 {
+  #n es el número de imágenes
   n = ncol(vecinos)/27
   listaFeatures = matrix(nrow = nrow(vecinos),ncol = length(listaFunciones)*n)
     for(i in 1:nrow(vecinos)){
