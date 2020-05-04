@@ -73,6 +73,7 @@ for (i in 2:30){
   write_nifti(ws_flair,paste0("/Users/juanjoseruizpenela/Documents/IMG1/BRAIN_IMAGES/","S",i,"_FLAIR_BRAIN"))
   write_nifti(ws_t1,paste0("/Users/juanjoseruizpenela/Documents/IMG1/BRAIN_IMAGES/","S",i,"_T1_BRAIN"))
 }
+##registro consensos
 for(j in 1:30){
   consensoj = leeImagen(ROOT = "/Users/juanjoseruizpenela/Documents/IMG1/raw_images/","consensus",j)
   if(j==1){
@@ -84,4 +85,11 @@ for(j in 1:30){
   writenii(consenso_regist,paste0("/Users/juanjoseruizpenela/Documents/GIT REPOSITORY/myrepo/BRAIN_IMAGES/CONSENSO/","S",j,"_CONSENSO"))
 }
 
+##control de calidad manual
+k = 0
 
+k=k+1
+consensoi = readnii(paste0("/Users/juanjoseruizpenela/Documents/GIT REPOSITORY/myrepo/BRAIN_IMAGES/CONSENSO/","S",k,"_CONSENSO.nii.gz"))
+flair_braini=readnii(paste0("/Users/juanjoseruizpenela/Documents/GIT REPOSITORY/myrepo/BRAIN_IMAGES/","S",k,"_FLAIR_BRAIN.nii.gz"))
+ortho2(flair_braini,consensoi)
+k
