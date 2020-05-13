@@ -1,5 +1,6 @@
 obtenCoord<-function(num,Imagen)
 {
+  #saca la coordenada de una matriz dada la posición consecutiva por columnas
   fila = num%%nrow(Imagen)
   if (fila==0){
     fila = nrow(Imagen)
