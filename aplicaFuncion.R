@@ -7,6 +7,7 @@ aplicaFuncion<-function(vecinos,listaFunciones)
       lista = list()
       #variables auxiliares
       c=0
+      sum = 0
       k=1
       #aplicamos la función j a la ventana iésimo
       #n es el número de imágenes
@@ -19,22 +20,30 @@ aplicaFuncion<-function(vecinos,listaFunciones)
         lista = c(lista,valuesk)
       }
       #aplicamos la función jésima a cada elemento de la lista
-      for (j in 1:length(listaFunciones)){
-        features = c(lapply(lista,listaFunciones[[j]]))
+      #for (j in 1:length(listaFunciones)){
+       # features = c(lapply(lista,listaFunciones[[j]]))
         #lo convertimos en vector
-        feat = c()
-        for(l in 1:length(features)){
-          feat = c(feat,features[[l]])
+        #feat = c()
+        #for(l in 1:length(features)){
+         # feat = c(feat,features[[l]])
+        #}
+        #por cada elemento de la lista, aplicamos todas las funciones
+        for(j in 1:length(lista)){
+          for(l in 1:length(listaFunciones)){
+            featj = listaFunciones[[l]](lista[[j]])
+            listaFeatures[i,l+sum]=featj
+          }
+          sum = length(listaFunciones)+sum
         }
         #repartimos el resultado de la función en las columnas de la matriz 
         #razon reparto.
-        r = ncol(listaFeatures)/n
-        b=0
-        while(b<(length(listaFunciones)-2)){
-          listaFeatures[i,j+b*r]=feat[b+1]
-          b=b+1
-        }
-      }
+        #r = ncol(listaFeatures)/n
+        #b=0
+        #while(b<(length(listaFunciones)-2)){
+         # listaFeatures[i,j+b*r]=feat[b+1]
+          #b=b+1
+        #}
+      #}
     }
   return (listaFeatures)
 }
