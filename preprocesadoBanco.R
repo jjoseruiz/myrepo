@@ -10,7 +10,7 @@ s1_FLAIR_CORRECTED=correccion(antsImageRead("/Users/juanjoseruizpenela/Documents
 S1_MASK = antsImageRead("/Users/juanjoseruizpenela/Documents/IMG1/raw_images/patient1_brainmask.nii.gz")
 
 #PARA MI DATASET DE MRI APLICAREMOS LA SIGUIENTE SECUENCIA DE PASOS
-for (i in 1:30){
+for (i in 5:30){
   ###LECTURA
   if(i == 1){
     IMG_MASK = S1_MASK
@@ -74,23 +74,16 @@ for (i in 1:30){
   writenii(ws_t1,paste0("/Users/juanjoseruizpenela/Documents/GIT REPOSITORY/myrepo/BRAIN_IMAGES/","S",i,"_T1_BRAIN"))
   antsImageWrite(CONSENSO_REGISTERED,paste0("/Users/juanjoseruizpenela/Documents/GIT REPOSITORY/myrepo/BRAIN_IMAGES/CONSENSO/","S",i,"_CONSENSO.nii.gz"))
 }
-##registro consensos
-for(j in 1:30){
-  consensoj = leeImagen(ROOT = "/Users/juanjoseruizpenela/Documents/IMG1/raw_images/","consensus",j)
-  if(j==1){
-    consenso_regist = consensoj
-  }else{
-    consenso_regist = registro(consensoj)$outfile
-  }
-  print("escribiendo")
-  writenii(consenso_regist,paste0("/Users/juanjoseruizpenela/Documents/GIT REPOSITORY/myrepo/BRAIN_IMAGES/CONSENSO/","S",j,"_CONSENSO"))
-}
+
 
 ##control de calidad manual
 k = 0
 
 k=k+1
-consensoi = readnii(paste0("/Users/juanjoseruizpenela/Documents/GIT REPOSITORY/myrepo/BRAIN_IMAGES/CONSENSO/","S",k,"_CONSENSO.nii.gz"))
-flair_braini=readnii(paste0("/Users/juanjoseruizpenela/Documents/GIT REPOSITORY/myrepo/BRAIN_IMAGES/","S",k,"_FLAIR_BRAIN.nii.gz"))
+consensoi = antsImageRead(paste0("/Users/juanjoseruizpenela/Documents/GIT REPOSITORY/myrepo/BRAIN_IMAGES/CONSENSO/","S",k,"_CONSENSO.nii.gz"))
+flair_braini=antsImageRead(paste0("/Users/juanjoseruizpenela/Documents/GIT REPOSITORY/myrepo/BRAIN_IMAGES/","S",k,"_FLAIR_BRAIN.nii.gz"))
 ortho2(flair_braini,consensoi)
 k
+IMG_FLAIR = antsImageRead(paste0("/Users/juanjoseruizpenela/Documents/IMG1/raw_images/","patient",k,"_FLAIR.nii.gz"))
+IMG_CONSENSO = antsImageRead(paste0("/Users/juanjoseruizpenela/Documents/IMG1/raw_images/","patient",k,"_consensus_gt.nii.gz"))
+ortho2(IMG_FLAIR,IMG_CONSENSO)
