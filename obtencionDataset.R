@@ -30,9 +30,10 @@ consensos = lapply(lconsenso,antsImageRead)
 #consenso  = consenso2
 nSujetos = 30
 num_images_sujeto = 2
+numImagenes = 30*2
 almacen = matrix(nrow = numero_voxeles*nSujetos,ncol = length(listaFunciones)*num_images_sujeto+1)
 j=0
-for(l in 1:numImagenes){
+for(l in 1:nSujetos){
   rootflairl = paste0("/Users/juanjoseruizpenela/Documents/GIT REPOSITORY/myrepo/BRAIN_IMAGES/","S",l,"_FLAIR_BRAIN.nii.gz")
   roott1l = paste0("/Users/juanjoseruizpenela/Documents/GIT REPOSITORY/myrepo/BRAIN_IMAGES/","S",l,"_T1_BRAIN.nii.gz")
   rootconsensol = paste0("/Users/juanjoseruizpenela/Documents/GIT REPOSITORY/myrepo/BRAIN_IMAGES/CONSENSO/","S",l,"_CONSENSO.nii.gz")
