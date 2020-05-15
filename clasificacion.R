@@ -1,0 +1,26 @@
+necesarios=c("tree","rpart","rpart.plot","dplyr","randomForest")
+install.packages(necesarios,dependencies = TRUE,repos = "http://cran.us.r-project.org")
+library(tree)
+library(rpart)
+library(rpart.plot)
+library(dplyr)
+library(randomForest)
+dataset<-read.csv("almacen")
+dataset<-dataset[,2:ncol(dataset)]
+lesion=filter(dataset,LESION==1)
+dataset$LESION=factor(dataset$LESION)
+set.seed(1924562)
+particion=runif(nrow(dataset))
+entrenamiento=dataset[particion<0.85,]
+prueba=dataset[particion>=0.85,]
+modelo = randomForest(LESION~.,data=entrenamiento,na.action = na.omit,ntree=300)
+modelo$confusion
+prediccion=predict(modelo,prueba)
+mc_rf=table(prediccion,prueba$LESION)
+exac=sum(diag(mc_rf))/sum(mc_rf)
+exac
+
+library(caret)
+trainData=dataset[,1:(ncol(dataset)-1)]
+trainClase=dataset[,ncol(dataset)]
+knn=train(trainData,trainClase,method = "knn",preProcess = c("center","scale"),tuneLength = 10,trControl = trainControl(method="cv"))
