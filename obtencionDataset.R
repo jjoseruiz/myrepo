@@ -40,3 +40,7 @@ for(l in 1:nSujetos){
   print(paste0("dataset sujeto "),l)
 }
 write.csv(almacen,"almacen")
+<<<<<<< HEAD
+=======
+
+>>>>>>> cfabab5240d4a0054f4dfd35b27e9a8e68859ce5
